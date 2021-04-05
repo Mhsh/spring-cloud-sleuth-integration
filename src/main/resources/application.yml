@@ -1,0 +1,33 @@
+spring:
+   application:
+    name: testapp
+   cloud:
+    gateway:
+      routes:      
+        - id: testroute
+          uri: https://httpbin.org/
+          filters:
+           - StripPrefix=1
+           - name: TestFilter       
+           - name: LoggingFilter
+          predicates:
+          - Path= /test/**
+              
+   sleuth:
+        sampler:
+            probability: 1.0
+        traceId128: true
+        
+        
+logging:
+  file:
+     path: /opt/app/log/
+     name: testapp.log
+
+  level:
+    reactor:
+      netty: INFO
+      
+    org:
+      springframework:
+        web: INFO
